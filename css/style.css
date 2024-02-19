@@ -107,20 +107,38 @@ a {
 
 main {
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 /* map styles */
 #map {
   padding: 1rem;
-  padding-top: calc(58.4px + 1rem);
+  padding-top: calc(112px + 1rem);
   height: 100vh;
-  border-right: 1px solid var(--dkmaroon);
+  border-bottom: 1px solid var(--dkmaroon);
+  border-right: none;
 }
 
 /* data-panel styles */
 #data-panel {
   padding: 1rem;
-  padding-top: calc(58.4px + 1rem);
+
   height: 100vh;
+}
+
+@media (min-width: 768px) {
+  /* pc view */
+  main {
+    grid-template-columns: 4fr 1fr;
+  }
+
+  #map {
+    border-bottom: none;
+    padding-top: calc(58.4px + 1rem);
+    border-right: 1px solid var(--dkmaroon);
+  }
+
+  #data-panel {
+    padding-top: calc(58.4px + 1rem);
+  }
 }
