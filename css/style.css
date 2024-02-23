@@ -115,14 +115,14 @@ main {
   padding: 1rem;
   padding-top: calc(112px + 1rem);
   height: 100vh;
-  border-bottom: 1px solid var(--dkmaroon);
-  border-right: none;
 }
 
 /* data-panel styles */
 #data-panel {
   padding: 1rem;
-  height: 100vh;
+  border-left: none;
+  border-top: 1px solid var(--dkmaroon);
+  height: 50vh;
 }
 
 @media (min-width: 768px) {
@@ -135,10 +135,12 @@ main {
   #map {
     border-bottom: none;
     padding-top: calc(58.4px + 1rem);
-    border-right: 1px solid var(--dkmaroon);
   }
 
   #data-panel {
     padding-top: calc(58.4px + 1rem);
+    height: 100vh;
+    border-top: none;
+    border-left: 1px solid var(--dkmaroon);
   }
 }
