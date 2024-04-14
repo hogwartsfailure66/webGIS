@@ -90,6 +90,14 @@ a {
 
 .navbar a {
   color: var(--white);
+  display: flex;
+  /* display: inline-block; */
+  min-width: 2rem;
+}
+
+svg {
+  fill: var(--white);
+  height: 1.2rem;
 }
 
 @media (min-width: 768px) {
@@ -143,4 +151,57 @@ main {
     border-top: none;
     border-left: 1px solid var(--dkmaroon);
   }
+}
+
+/* backdrop & message styles */
+.message-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: none;
+}
+
+.message-card {
+  border: 1px solid white;
+  width: 50vw;
+  height: 80vh;
+  border-radius: 30px;
+  background-color: var(--white);
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.message {
+  color: var(--black);
+  font-size: 2rem;
+}
+
+.message p {
+  font-size: 1rem;
+}
+
+button {
+  font-size: 1.5rem;
+  color: var(--white);
+  background-color: var(--maroon);
+  border: 1px solid var(--white);
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+button:hover {
+  background-color: var(--dkmaroon);
+  color: var(--white);
+  /* border-color: var(--white); */
+}
+
+.message-container.show {
+  display: flex;
 }
