@@ -154,27 +154,32 @@ main {
 }
 
 /* backdrop & message styles */
-.message-container {
+.backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   display: none;
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
 }
 
 .message-card {
+  position: fixed;
+  margin-top: 10vh;
+  margin-left: 25vw;
   border: 1px solid white;
   width: 50vw;
   height: 80vh;
   border-radius: 30px;
   background-color: var(--white);
   overflow-y: auto;
-  padding: 1rem;
+  padding: 2rem;
+  z-index: 100;
+  display: none;
 }
 
 .message {
@@ -202,6 +207,11 @@ button:hover {
   /* border-color: var(--white); */
 }
 
-.message-container.show {
+.message-card.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.backdrop.show {
   display: flex;
 }

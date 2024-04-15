@@ -1,8 +1,9 @@
 const confirmButton = document.querySelector("#confirm");
 const instructionButton = document.querySelector("#instruction");
 const aboutButton = document.querySelector("#about");
-const messageDiv = document.querySelector(".message-container");
+const messageDiv = document.querySelector(".message-card");
 const messageContent = document.querySelector(".message");
+const backdrop = document.querySelector(".backdrop");
 
 const aboutContent =
   "<h2>Acknowledgments</h2>" +
@@ -25,11 +26,12 @@ const init = () => {
   confirmButton.addEventListener("click", closeMessageDiv);
   instructionButton.addEventListener("click", showInstruction);
   aboutButton.addEventListener("click", showAbout);
-  messageDiv.addEventListener("click", closeMessageDiv);
+  backdrop.addEventListener("click", closeMessageDiv);
 };
 
 const closeMessageDiv = () => {
   messageDiv.classList.remove("show");
+  backdrop.classList.remove("show");
 };
 
 const showInstruction = () => {
@@ -44,6 +46,7 @@ const showAbout = () => {
 const showMessageDiv = (message) => {
   messageContent.innerHTML = message;
   messageDiv.classList.add("show");
+  backdrop.classList.add("show");
 };
 
 init();
