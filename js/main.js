@@ -80,6 +80,10 @@ var overlay_style = {
   opacity: 0,
 };
 
+var roads_style = {
+  color: "#333333"
+};
+
 L.geoJSON(all_5, { style: style_5 }).addTo(map);
 L.geoJSON(all_10, { style: style_10 }).addTo(map);
 L.geoJSON(all_20, { style: style_20 }).addTo(map);
