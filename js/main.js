@@ -93,8 +93,37 @@ L.geoJSON(all_overlay, { style: function(feature) {
     case "TRUE": return {fillOpacity:0,opacity:0};
   }
 }}).addTo(map);
-L.geoJSON(all_points).addTo(map);
-L.geoJSON(roads, { style: roads_style }).addTo(map);
+L.geoJSON(all_points, {
+  pointToLayer: function (feature, latlng) {
+    return new L.CircleMarker(latlng, {
+      radius: 5,
+      fillOpacity: 1,
+      color: "black",
+      fillColor: getColor(feature.properties.Type),
+      weight: 1,
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(
+      "<h2>" +
+        feature.properties.Name +
+        "</h2><h5>Type: " +
+        feature.properties.Type +
+        "</h5><h5>Address: " +
+        feature.properties.Address +
+        "</h5>"
+    );
+  },
+}).addTo(map);
+
+function getColor(stype) {
+  switch (stype) {
+    case "Grocery store":
+      return "blue";
+    default:
+      return "white";
+  }
+}
 
 // search
 const apiKey =
