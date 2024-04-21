@@ -49,38 +49,67 @@ const showMessageDiv = (message) => {
 
 init();
 
-var map = L.map('map-target').setView([30.6316, -96.3545], 12);
+var map = L.map("map-target").setView([30.6316, -96.3545], 12);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
+  attribution:
+    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+}).addTo(map);
 
 var style_5 = {
-  "fillColor": "#00ff00",
-  "color": "#54FF54",
-  "fillOpacity": 0.50
+  fillColor: "#00ff00",
+  color: "#54FF54",
+  fillOpacity: 0.5,
 };
 
 var style_10 = {
-  "fillColor": "#D6B715",
-  "color": "#D6B715",
-  "fillOpacity": 0.50
+  fillColor: "#D6B715",
+  color: "#D6B715",
+  fillOpacity: 0.5,
 };
 
 var style_20 = {
-  "fillColor": "#ff4500",
-  "color": "#ff4500",
-  "fillOpacity": 0.50
+  fillColor: "#ff4500",
+  color: "#ff4500",
+  fillOpacity: 0.5,
 };
 
 var overlay_style = {
-  "fillOpacity": 0,
-  "opacity": 0
+  fillOpacity: 0,
+  opacity: 0,
 };
 
-L.geoJSON(all_5, {style: style_5}).addTo(map);
-L.geoJSON(all_10, {style: style_10}).addTo(map);
-L.geoJSON(all_20, {style: style_20}).addTo(map);
-L.geoJSON(all_overlay, {style: overlay_style}).addTo(map);
+L.geoJSON(all_5, { style: style_5 }).addTo(map);
+L.geoJSON(all_10, { style: style_10 }).addTo(map);
+L.geoJSON(all_20, { style: style_20 }).addTo(map);
+L.geoJSON(all_overlay, { style: overlay_style }).addTo(map);
 L.geoJSON(all_points).addTo(map);
+
+// search
+const apiKey =
+  "AAPKfa9a7a17834e49efa846b458ee800b2aYRQz5AOfQBLVvrszTFhmKAEjKSAeIOKRISoNzJvncrTdBzOnCKi7YYL8vbowyMJ5";
+
+const searchControl = L.esri.Geocoding.geosearch({
+  position: "topright",
+  placeholder: "Enter an address or place e.g. 1 York St",
+  useMapBounds: false,
+  providers: [
+    L.esri.Geocoding.arcgisOnlineProvider({
+      apikey: apiKey,
+      nearby: {
+        lat: -33.8688,
+        lng: 151.2093,
+      },
+    }),
+  ],
+}).addTo(map);
+
+const results = L.layerGroup().addTo(map);
+
+searchControl.on("results", function (data) {
+  results.clearLayers();
+  for (let i = data.results.length - 1; i >= 0; i--) {
+    results.addLayer(L.marker(data.results[i].latlng));
+  }
+});
