@@ -10,8 +10,9 @@ const aboutContent = `<h2>Acknowledgments</h2>
     <p>data sources...</p>
     <h3>Libraries</h3>
     <ul>
-      <li>ArcGis Online</li>
-      <li>...</li>
+      <li>Leaflet</li>
+      <li><a href="https://github.com/Esri/esri-leaflet-geocoder" target='_blank'>esri-leaflet-geocoder</a></li>
+      <li><a href='https://github.com/teastman/Leaflet.pattern' target='_blank'>Leaflet.pattern</a> for stripe patterns</li>
       <li><a href='https://fontawesome.com/' target='_blank'>Font Awesome</a> for icons</li>
     </ul>`;
 
@@ -81,18 +82,30 @@ var overlay_style = {
 };
 
 var roads_style = {
-  color: "#333333"
+  color: "#333333",
 };
+
+var stripes = new L.StripePattern({ color: "#63625e" });
+stripes.addTo(map);
 
 L.geoJSON(all_5, { style: style_5 }).addTo(map);
 L.geoJSON(all_10, { style: style_10 }).addTo(map);
 L.geoJSON(all_20, { style: style_20 }).addTo(map);
-L.geoJSON(all_overlay, { style: function(feature) {
-  switch (feature.properties.Has_Store) {
-    case "FALSE": return {fillColor:"#555555",opacity:0,fillOpacity:0.7};
-    case "TRUE": return {fillOpacity:0,opacity:0};
-  }
-}}).addTo(map);
+L.geoJSON(all_overlay, {
+  style: function (feature) {
+    switch (feature.properties.Has_Store) {
+      case "FALSE":
+        return {
+          fillColor: "#555555",
+          opacity: 0.3,
+          fillOpacity: 0.5,
+          fillPattern: stripes,
+        };
+      case "TRUE":
+        return { fillOpacity: 0, opacity: 0 };
+    }
+  },
+}).addTo(map);
 L.geoJSON(all_points, {
   pointToLayer: function (feature, latlng) {
     return new L.CircleMarker(latlng, {
@@ -156,7 +169,6 @@ var greenIcon = new L.Icon({
 });
 
 searchControl.on("results", function (data) {
-
   results.clearLayers();
   // for (let i = data.results.length - 1; i >= 0; i--) {
   results.addLayer(
