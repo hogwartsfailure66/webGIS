@@ -48,3 +48,39 @@ const showMessageDiv = (message) => {
 };
 
 init();
+
+var map = L.map('map-target').setView([30.6316, -96.3545], 12);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+var style_5 = {
+  "fillColor": "#00ff00",
+  "color": "#54FF54",
+  "fillOpacity": 0.50
+};
+
+var style_10 = {
+  "fillColor": "#D6B715",
+  "color": "#D6B715",
+  "fillOpacity": 0.50
+};
+
+var style_20 = {
+  "fillColor": "#ff4500",
+  "color": "#ff4500",
+  "fillOpacity": 0.50
+};
+
+var overlay_style = {
+  "fillOpacity": 0,
+  "opacity": 0
+};
+
+L.geoJSON(all_5, {style: style_5}).addTo(map);
+L.geoJSON(all_10, {style: style_10}).addTo(map);
+L.geoJSON(all_20, {style: style_20}).addTo(map);
+L.geoJSON(all_overlay, {style: overlay_style}).addTo(map);
+L.geoJSON(all_points).addTo(map);
