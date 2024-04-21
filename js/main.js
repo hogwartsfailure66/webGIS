@@ -87,7 +87,12 @@ var roads_style = {
 L.geoJSON(all_5, { style: style_5 }).addTo(map);
 L.geoJSON(all_10, { style: style_10 }).addTo(map);
 L.geoJSON(all_20, { style: style_20 }).addTo(map);
-L.geoJSON(all_overlay, { style: overlay_style }).addTo(map);
+L.geoJSON(all_overlay, { style: function(feature) {
+  switch (feature.properties.Has_Store) {
+    case "FALSE": return {fillColor:"#555555",opacity:0,fillOpacity:0.7};
+    case "TRUE": return {fillOpacity:0,opacity:0};
+  }
+}}).addTo(map);
 L.geoJSON(all_points).addTo(map);
 L.geoJSON(roads, { style: roads_style }).addTo(map);
 
@@ -122,6 +127,7 @@ var greenIcon = new L.Icon({
 });
 
 searchControl.on("results", function (data) {
+
   results.clearLayers();
   // for (let i = data.results.length - 1; i >= 0; i--) {
   results.addLayer(
