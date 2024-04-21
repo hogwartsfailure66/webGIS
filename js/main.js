@@ -118,7 +118,15 @@ var greenIcon = new L.Icon({
 
 searchControl.on("results", function (data) {
   results.clearLayers();
-  for (let i = data.results.length - 1; i >= 0; i--) {
-    results.addLayer(L.marker(data.results[i].latlng, { icon: greenIcon }));
-  }
+  // for (let i = data.results.length - 1; i >= 0; i--) {
+  results.addLayer(
+    // L.marker(data.results[i].latlng, { icon: greenIcon }).bindPopup(
+    L.marker(data.results[0].latlng, { icon: greenIcon }).bindPopup(
+      '<p style="font-size: 1.3rem">You searched this address.</p><button class="delete-marker-button" onclick="deleteSearchMarker()">Remove this marker</button>'
+    )
+  );
 });
+
+const deleteSearchMarker = () => {
+  results.clearLayers();
+};
