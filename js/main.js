@@ -99,7 +99,8 @@ L.geoJSON(all_overlay, {
       case "FALSE":
         return {
           fillColor: "#555555",
-          opacity: 0.3,
+          color: "#555555",
+          opacity: 0.8,
           fillOpacity: 0.5,
           fillPattern: stripes,
         };
