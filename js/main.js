@@ -87,14 +87,14 @@ var roads_style = {
   color: "#333333",
 };
 
-
 // map legend
+
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
 
 var div = L.DomUtil.create('div', 'info legend'),
-    grades = [1795, 1945, 1960, 1980, 2000],
+    grades = [5, 10, 15, 20, 25],
     labels = [];
 
 for (var i = 0; i < grades.length; i++) {
@@ -107,6 +107,8 @@ for (var i = 0; i < grades.length; i++) {
  };
 
  legend.addTo(map);
+
+ // top legend line marks end of legend
 
 var stripes = new L.StripePattern({ color: "#63625e" });
 stripes.addTo(map);
