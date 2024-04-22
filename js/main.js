@@ -87,6 +87,27 @@ var roads_style = {
   color: "#333333",
 };
 
+
+// map legend
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+var div = L.DomUtil.create('div', 'info legend'),
+    grades = [1795, 1945, 1960, 1980, 2000],
+    labels = [];
+
+for (var i = 0; i < grades.length; i++) {
+    div.innerHTML +=
+        '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+ }
+
+ return div;
+ };
+
+ legend.addTo(map);
+
 var stripes = new L.StripePattern({ color: "#63625e" });
 stripes.addTo(map);
 
