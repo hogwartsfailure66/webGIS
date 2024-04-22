@@ -50,6 +50,8 @@ const showMessageDiv = (message) => {
 
 init();
 
+// map initialization
+
 var map = L.map("map-target").setView([30.6316, -96.3545], 12);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -129,6 +131,8 @@ L.geoJSON(all_points, {
   },
 }).addTo(map);
 
+L.geoJSON(roads, { style: roads_style}).addTo(map);
+
 function getColor(stype) {
   switch (stype) {
     case "Grocery store":
@@ -171,14 +175,56 @@ var greenIcon = new L.Icon({
 searchControl.on("results", function (data) {
   results.clearLayers();
   // for (let i = data.results.length - 1; i >= 0; i--) {
+  let resultlatlng = L.latLng(data.results[0].latlng.lat,data.results[0].latlng.lng);
+
+  let store_distances = [];
+  for (i in stores_array) {
+    store_distances.push(resultlatlng.distanceTo(stores_array[i]));
+  };
+  let c_store = store_distances.indexOf(Math.min.apply(Math,store_distances));
+
+  let pantry_distances = [];
+  for (i in pantry_array) {
+    pantry_distances.push(resultlatlng.distanceTo(pantry_array[i]));
+  };
+  let c_pantry = pantry_distances.indexOf(Math.min.apply(Math,pantry_distances));
+
   results.addLayer(
     // L.marker(data.results[i].latlng, { icon: greenIcon }).bindPopup(
     L.marker(data.results[0].latlng, { icon: greenIcon }).bindPopup(
-      '<p style="font-size: 1.3rem">You searched this address.</p><button class="delete-marker-button" onclick="deleteSearchMarker()">Remove this marker</button>'
+      "<table><tr><th colspan='2'>Closest Grocery Store</th></tr>\
+      <tr><td>Name</td><td>"+all_points.features[c_store].properties.Name+"</td></tr>\
+      <tr><td>Address</td><td>"+all_points.features[c_store].properties.Address+"</td></tr>\
+      <tr><td>Distance</td><td>"+(resultlatlng.distanceTo(stores_array[c_store])/1609).toFixed(3)+" miles</td></tr></table>\
+      \
+      <table><tr><th colspan='2'>Closest Food Pantry</th></tr>\
+      <tr><td>Name</td><td>"+all_points.features[c_pantry].properties.Name+"</td></tr>\
+      <tr><td>Address</td><td>"+all_points.features[c_pantry].properties.Address+"</td></tr>\
+      <tr><td>Distance</td><td>"+(resultlatlng.distanceTo(pantry_array[c_pantry])/1609).toFixed(3)+" miles</td></tr></table>\
+      \
+      <button class='delete-marker-button' onclick='deleteSearchMarker()'>Remove this marker</button>"
     )
   );
 });
 
 const deleteSearchMarker = () => {
   results.clearLayers();
+};
+
+var stores_array = [];
+for (i in all_points.features) {
+  if (all_points.features[i].properties.Type.toLowerCase() === "grocery store") {
+    stores_array.push([all_points.features[i].geometry.coordinates[1], all_points.features[i].geometry.coordinates[0]]);
+  } else {
+    stores_array.push([0,0]);
+  }
+};
+
+var pantry_array = [];
+for (i in all_points.features) {
+  if (all_points.features[i].properties.Type.toLowerCase() === "pantry") {
+    pantry_array.push([all_points.features[i].geometry.coordinates[1], all_points.features[i].geometry.coordinates[0]]);
+  } else {
+    pantry_array.push([0,0]);
+  }
 };
