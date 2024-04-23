@@ -6,8 +6,24 @@ const messageContent = document.querySelector(".message");
 const backdrop = document.querySelector(".backdrop");
 
 const aboutContent = `<h2>Acknowledgments</h2>
+    <br>
     <h3>Data</h3>
-    <p>data sources...</p>
+    <p>Food pantries and grocery stores collected by looking through Google Maps and plotting them manually.</p>
+    <p>Road data collected manually based on 2 criteria:
+      <ul>
+        <li>4 or more lanes</li>
+        <li>Speed limit of 40+ mph</li>
+        <li>Some edge cases (Holleman Dr)</li>
+      </ul>
+    </p>
+    <p>
+      Polygons created using ArcGIS Pro and converted to GeoJSON:
+      <ul>
+        <li>Created walk time maps (5, 10, and 20 minute breaks)</li>
+        <li>Clipped roads to walk-time polygons</li>
+        <li>Intersect of clipped roads and walk-time polygons used in map</li>
+      </ul>
+    </p>
     <h3>Libraries</h3>
     <ul>
       <li>Leaflet</li>
@@ -100,8 +116,7 @@ var roads_style = {
 var legend = L.control({ position: "bottomright" });
 
 legend.onAdd = function (map) {
-
-var div = L.DomUtil.create('div', 'info legend'),
+  var div = L.DomUtil.create("div", "info legend"),
     grades = [0, 5, 10, 15, 20],
     labels = [];
 
