@@ -137,30 +137,6 @@ legend.addTo(map);
 
 // top marks end of first section of legend; bottom marks beginning of second section 
 
-var legend = L.control({ position: "bottomright" });
-
-legend.onAdd = function (map) {
-
-var div = L.DomUtil.create('div', 'info legend'),
-    grades = ["Areas that must cross a major road to access closest store or pantry"],
-    labels = [];
-
-  for (var i = 0; i < grades.length; i++) {
-    div.innerHTML +=
-      '<i style="background:' +
-      getColor(grades[i] + 1) +
-      '"></i> ' +
-      grades[i] +
-      (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
-  }
-
-  return div;
-};
-
-legend.addTo(map);
-
-// top legend line marks end of legend
-
 var stripes = new L.StripePattern({ color: "#63625e" });
 stripes.addTo(map);
 
