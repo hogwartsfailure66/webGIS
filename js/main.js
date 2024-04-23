@@ -6,15 +6,33 @@ const messageContent = document.querySelector(".message");
 const backdrop = document.querySelector(".backdrop");
 
 const aboutContent = `<h2>Acknowledgments</h2>
+    <br>
     <h3>Data</h3>
-    <p>data sources...</p>
+    <p>Food pantries and grocery stores collected by looking through Google Maps and plotting them manually.</p>
+    <p>Road data collected manually based on 2 criteria:
+      <ul>
+        <li>4 or more lanes</li>
+        <li>Speed limit of 40+ mph</li>
+        <li>Some edge cases (Holleman Dr)</li>
+      </ul>
+    </p>
+    <p>
+      Polygons created using ArcGIS Pro and converted to GeoJSON:
+      <ul>
+        <li>Created walk time maps (5, 10, and 20 minute breaks)</li>
+        <li>Clipped roads to walk-time polygons</li>
+        <li>Intersect of clipped roads and walk-time polygons used in map</li>
+      </ul>
+    </p>
     <h3>Libraries</h3>
     <ul>
       <li>Leaflet</li>
+      <li>ArcGIS Pro</li>
       <li><a href="https://github.com/Esri/esri-leaflet-geocoder" target='_blank'>esri-leaflet-geocoder</a></li>
       <li><a href='https://github.com/teastman/Leaflet.pattern' target='_blank'>Leaflet.pattern</a> for stripe patterns</li>
       <li><a href='https://fontawesome.com/' target='_blank'>Font Awesome</a> for icons</li>
       <li><a href='https://github.com/pointhi/leaflet-color-markers' target='_blank'>leaflet-color-markers</a></li>
+      <li><a href='https://github.com/makinacorpus/Leaflet.GeometryUtil' target='_blank'>Leaflet.GeometryUtil</a> for closest stores/pantries</li>
     </ul>`;
 
 const instructionContent = `<h2>About this project</h2>
