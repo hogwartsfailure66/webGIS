@@ -98,8 +98,9 @@ var roads_style = {
 var legend = L.control({ position: "bottomright" });
 
 legend.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend"),
-    grades = [5, 10, 15, 20, 25],
+
+var div = L.DomUtil.create('div', 'info legend'),
+    grades = [0, 5, 10, 15, 20],
     labels = [];
 
   for (var i = 0; i < grades.length; i++) {
