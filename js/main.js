@@ -11,10 +11,12 @@ const aboutContent = `<h2>Acknowledgments</h2>
     <h3>Libraries</h3>
     <ul>
       <li>Leaflet</li>
+      <li>ArcGIS Pro</li>
       <li><a href="https://github.com/Esri/esri-leaflet-geocoder" target='_blank'>esri-leaflet-geocoder</a></li>
       <li><a href='https://github.com/teastman/Leaflet.pattern' target='_blank'>Leaflet.pattern</a> for stripe patterns</li>
       <li><a href='https://fontawesome.com/' target='_blank'>Font Awesome</a> for icons</li>
       <li><a href='https://github.com/pointhi/leaflet-color-markers' target='_blank'>leaflet-color-markers</a></li>
+      <li><a href='https://github.com/makinacorpus/Leaflet.GeometryUtil' target='_blank'>Leaflet.GeometryUtil</a> for closest stores/pantries</li>
     </ul>`;
 
 const instructionContent = `<h2>About this project</h2>
