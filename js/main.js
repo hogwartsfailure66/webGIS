@@ -14,12 +14,18 @@ const aboutContent = `<h2>Acknowledgments</h2>
       <li><a href="https://github.com/Esri/esri-leaflet-geocoder" target='_blank'>esri-leaflet-geocoder</a></li>
       <li><a href='https://github.com/teastman/Leaflet.pattern' target='_blank'>Leaflet.pattern</a> for stripe patterns</li>
       <li><a href='https://fontawesome.com/' target='_blank'>Font Awesome</a> for icons</li>
+      <li><a href='https://github.com/pointhi/leaflet-color-markers' target='_blank'>leaflet-color-markers</a></li>
     </ul>`;
 
 const instructionContent = `<h2>About this project</h2>
-   <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium debitis corporis deleniti asperiores qui? Repellendus modi maxime explicabo architecto, placeat asperiores, sed, quae numquam deserunt magni assumenda! Commodi, maiores animi?</p>
+   <p>We want to bring attention to the problem of food deserts, specifically in the Bryan/College Station, because living in one can be challenging and can have adverse effects on a person’s health. Negative effects include: nutritional deficiencies, higher incidence of obesity/other weight-related conditions, especially in children, cardiovascular disease.</p>
    <h3>Project Goals</h3>
-   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At cum neque sed quos, dignissimos asperiores, suscipit iste culpa cumque voluptatum ipsa obcaecati perferendis veritatis, sunt architecto modi fugit facilis blanditiis quis. Laborum labore, tempore nesciunt voluptates nihil excepturi vel vitae sunt reprehenderit, ipsa eos dolore asperiores nostrum aspernatur alias placeat deleniti suscipit illum ut, consectetur veritatis provident debitis? Labore, ratione nihil, suscipit, eum ipsum delectus atque nulla commodi fuga adipisci harum explicabo. Mollitia enim similique voluptate tempora, iusto perspiciatis assumenda molestias! Assumenda itaque cum veritatis, delectus quibusdam provident facilis inventore magni soluta aut fuga rerum, harum eum debitis placeat sed?Lorem ipsum dolor, sit amet consectetur adipisicing elit. At cum neque sed quos, dignissimos asperiores, suscipit iste culpa cumque voluptatum ipsa obcaecati perferendis veritatis, sunt architecto modi fugit facilis blanditiis quis. Laborum labore, tempore nesciunt voluptates nihil excepturi vel vitae sunt reprehenderit, ipsa eos dolore asperiores nostrum aspernatur alias placeat deleniti suscipit illum ut, consectetur veritatis provident debitis? Labore, ratione nihil, suscipit, eum ipsum delectus atque nulla commodi fuga adipisci harum explicabo. Mollitia enim similique voluptate tempora, iusto perspiciatis assumenda molestias! Assumenda itaque cum veritatis, delectus quibusdam provident facilis inventore magni soluta aut fuga rerum, harum eum debitis placeat sed?</p>`;
+   <p>The primary goal of our project is to create a user-friendly and interactive map with a comprehensive visual representation of food deserts in Bryan/College Station area.</p>
+   <p><b>Enhanced User Engagement:</b> Our project aspires to captivate users, fostering a high degree of engagement. The interactive map is designed not only to be visually appealing but also to encourage users to actively explore and interact with the data.</p>
+   <p><b>Inform Decision-Making:</b> Our project provide data and insights to policymakers and community organizations to target solutions for improved food access.
+   Identify areas with the greatest need for grocery stores, mobile markets, or improved public transportation to reach existing stores.</b></p>
+   <p><b>Raise Awareness:</b> Educate the public on the existence and locations of food deserts in their communities.
+   Increase understanding of the impact of food deserts on health and dietary choices.</p>`;
 
 const init = () => {
   confirmButton.addEventListener("click", closeMessageDiv);
@@ -89,26 +95,28 @@ var roads_style = {
 
 // map legend
 
-var legend = L.control({position: 'bottomright'});
+var legend = L.control({ position: "bottomright" });
 
 legend.onAdd = function (map) {
-
-var div = L.DomUtil.create('div', 'info legend'),
+  var div = L.DomUtil.create("div", "info legend"),
     grades = [5, 10, 15, 20, 25],
     labels = [];
 
-for (var i = 0; i < grades.length; i++) {
+  for (var i = 0; i < grades.length; i++) {
     div.innerHTML +=
-        '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
- }
+      '<i style="background:' +
+      getColor(grades[i] + 1) +
+      '"></i> ' +
+      grades[i] +
+      (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+  }
 
- return div;
- };
+  return div;
+};
 
- legend.addTo(map);
+legend.addTo(map);
 
- // top legend line marks end of legend
+// top legend line marks end of legend
 
 var stripes = new L.StripePattern({ color: "#63625e" });
 stripes.addTo(map);
@@ -155,7 +163,7 @@ L.geoJSON(all_points, {
   },
 }).addTo(map);
 
-L.geoJSON(roads, { style: roads_style}).addTo(map);
+L.geoJSON(roads, { style: roads_style }).addTo(map);
 
 function getColor(stype) {
   switch (stype) {
@@ -199,32 +207,49 @@ var greenIcon = new L.Icon({
 searchControl.on("results", function (data) {
   results.clearLayers();
   // for (let i = data.results.length - 1; i >= 0; i--) {
-  let resultlatlng = L.latLng(data.results[0].latlng.lat,data.results[0].latlng.lng);
+  let resultlatlng = L.latLng(
+    data.results[0].latlng.lat,
+    data.results[0].latlng.lng
+  );
 
   let store_distances = [];
   for (i in stores_array) {
     store_distances.push(resultlatlng.distanceTo(stores_array[i]));
-  };
-  let c_store = store_distances.indexOf(Math.min.apply(Math,store_distances));
+  }
+  let c_store = store_distances.indexOf(Math.min.apply(Math, store_distances));
 
   let pantry_distances = [];
   for (i in pantry_array) {
     pantry_distances.push(resultlatlng.distanceTo(pantry_array[i]));
-  };
-  let c_pantry = pantry_distances.indexOf(Math.min.apply(Math,pantry_distances));
+  }
+  let c_pantry = pantry_distances.indexOf(
+    Math.min.apply(Math, pantry_distances)
+  );
 
   results.addLayer(
     // L.marker(data.results[i].latlng, { icon: greenIcon }).bindPopup(
     L.marker(data.results[0].latlng, { icon: greenIcon }).bindPopup(
       "<table><tr><th colspan='2'>Closest Grocery Store</th></tr>\
-      <tr><td>Name</td><td>"+all_points.features[c_store].properties.Name+"</td></tr>\
-      <tr><td>Address</td><td>"+all_points.features[c_store].properties.Address+"</td></tr>\
-      <tr><td>Distance</td><td>"+(resultlatlng.distanceTo(stores_array[c_store])/1609).toFixed(3)+" miles</td></tr></table>\
+      <tr><td>Name</td><td>" +
+        all_points.features[c_store].properties.Name +
+        "</td></tr>\
+      <tr><td>Address</td><td>" +
+        all_points.features[c_store].properties.Address +
+        "</td></tr>\
+      <tr><td>Distance</td><td>" +
+        (resultlatlng.distanceTo(stores_array[c_store]) / 1609).toFixed(3) +
+        " miles</td></tr></table>\
       \
       <table><tr><th colspan='2'>Closest Food Pantry</th></tr>\
-      <tr><td>Name</td><td>"+all_points.features[c_pantry].properties.Name+"</td></tr>\
-      <tr><td>Address</td><td>"+all_points.features[c_pantry].properties.Address+"</td></tr>\
-      <tr><td>Distance</td><td>"+(resultlatlng.distanceTo(pantry_array[c_pantry])/1609).toFixed(3)+" miles</td></tr></table>\
+      <tr><td>Name</td><td>" +
+        all_points.features[c_pantry].properties.Name +
+        "</td></tr>\
+      <tr><td>Address</td><td>" +
+        all_points.features[c_pantry].properties.Address +
+        "</td></tr>\
+      <tr><td>Distance</td><td>" +
+        (resultlatlng.distanceTo(pantry_array[c_pantry]) / 1609).toFixed(3) +
+        " miles</td></tr></table>\
       \
       <button class='delete-marker-button' onclick='deleteSearchMarker()'>Remove this marker</button>"
     )
@@ -237,18 +262,26 @@ const deleteSearchMarker = () => {
 
 var stores_array = [];
 for (i in all_points.features) {
-  if (all_points.features[i].properties.Type.toLowerCase() === "grocery store") {
-    stores_array.push([all_points.features[i].geometry.coordinates[1], all_points.features[i].geometry.coordinates[0]]);
+  if (
+    all_points.features[i].properties.Type.toLowerCase() === "grocery store"
+  ) {
+    stores_array.push([
+      all_points.features[i].geometry.coordinates[1],
+      all_points.features[i].geometry.coordinates[0],
+    ]);
   } else {
-    stores_array.push([0,0]);
+    stores_array.push([0, 0]);
   }
-};
+}
 
 var pantry_array = [];
 for (i in all_points.features) {
   if (all_points.features[i].properties.Type.toLowerCase() === "pantry") {
-    pantry_array.push([all_points.features[i].geometry.coordinates[1], all_points.features[i].geometry.coordinates[0]]);
+    pantry_array.push([
+      all_points.features[i].geometry.coordinates[1],
+      all_points.features[i].geometry.coordinates[0],
+    ]);
   } else {
-    pantry_array.push([0,0]);
+    pantry_array.push([0, 0]);
   }
-};
+}
