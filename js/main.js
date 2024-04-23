@@ -27,12 +27,12 @@ const aboutContent = `<h2>Acknowledgments</h2>
     <h3>Libraries</h3>
     <ul>
       <li>Leaflet</li>
-      <li>ArcGIS Pro</li>
       <li><a href="https://github.com/Esri/esri-leaflet-geocoder" target='_blank'>esri-leaflet-geocoder</a></li>
       <li><a href='https://github.com/teastman/Leaflet.pattern' target='_blank'>Leaflet.pattern</a> for stripe patterns</li>
       <li><a href='https://fontawesome.com/' target='_blank'>Font Awesome</a> for icons</li>
       <li><a href='https://github.com/pointhi/leaflet-color-markers' target='_blank'>leaflet-color-markers</a></li>
       <li><a href='https://github.com/makinacorpus/Leaflet.GeometryUtil' target='_blank'>Leaflet.GeometryUtil</a> for closest stores/pantries</li>
+      <li><a href='https://github.com/ptma/Leaflet.Legend/' target='_blank'>Leaflet.Legend</a></li>
     </ul>`;
 
 const instructionContent = `<h2>About this project</h2>
@@ -67,6 +67,7 @@ const showAbout = () => {
 };
 
 const showMessageDiv = (message) => {
+  console.log("1");
   messageContent.innerHTML = message;
   messageDiv.classList.add("show");
   backdrop.classList.add("show");
@@ -75,7 +76,6 @@ const showMessageDiv = (message) => {
 init();
 
 // map initialization
-
 var map = L.map("map-target").setView([30.6316, -96.3545], 12);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -110,31 +110,6 @@ var overlay_style = {
 var roads_style = {
   color: "#333333",
 };
-
-// map legend
-
-var legend = L.control({ position: "bottomright" });
-
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend"),
-    grades = [0, 5, 10, 15, 20],
-    labels = [];
-
-  for (var i = 0; i < grades.length; i++) {
-    div.innerHTML +=
-      '<i style="background:' +
-      getColor(grades[i] + 1) +
-      '"></i> ' +
-      grades[i] +
-      (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
-  }
-
-  return div;
-};
-
-legend.addTo(map);
-
-// top legend line marks end of legend
 
 var stripes = new L.StripePattern({ color: "#63625e" });
 stripes.addTo(map);
@@ -303,3 +278,80 @@ for (i in all_points.features) {
     pantry_array.push([0, 0]);
   }
 }
+
+// legend
+const legend = L.control
+  .Legend({
+    position: "bottomright",
+    collapsed: false,
+    symbolWidth: 24,
+    opacity: 1,
+    column: 2,
+    legends: [
+      {
+        label: "Location Searched",
+        type: "image",
+        url: "img/marker-icon-2x-green.png",
+      },
+      {
+        label: "Grocery Store",
+        type: "circle",
+        radius: 6,
+        color: "black",
+        fillColor: "blue",
+        fillOpacity: 0.6,
+        weight: 2,
+      },
+      {
+        label: "Food Pantry",
+        type: "circle",
+        radius: 6,
+        color: "black",
+        fillColor: "white",
+        fillOpacity: 0.6,
+        weight: 2,
+      },
+      {
+        label: " Major roads",
+        type: "polyline",
+        color: "#000000",
+        fillColor: "#000000",
+        weight: 2,
+      },
+      {
+        label: "0-5 minutes",
+        type: "rectangle",
+        fillColor: "#00ff00",
+        color: "#54FF54",
+        fillOpacity: 0.5,
+        weight: 2,
+      },
+      {
+        label: " 5-10 minutes",
+        type: "rectangle",
+        fillColor: "#D6B715",
+        color: "#D6B715",
+        fillOpacity: 0.5,
+        weight: 2,
+      },
+      {
+        label: " 10-20 minutes",
+        type: "rectangle",
+        fillColor: "#ff4500",
+        color: "#ff4500",
+        fillOpacity: 0.5,
+        weight: 2,
+      },
+      {
+        label: " must cross a major road",
+        type: "rectangle",
+        fillColor: "#555555",
+        color: "#555555",
+        opacity: 0.8,
+        fillOpacity: 0.5,
+        fillPattern: stripes,
+        weight: 2,
+      },
+    ],
+  })
+  .addTo(map);

@@ -68,6 +68,7 @@ a {
   color: var(--white);
   position: fixed;
   width: 100%;
+  z-index: 1;
 }
 
 .navbar ul {
@@ -145,7 +146,7 @@ main {
   /* pc view */
   main {
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    /* grid-template-columns: 4fr 1fr; */
   }
 
   #map {
