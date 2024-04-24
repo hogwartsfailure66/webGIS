@@ -344,13 +344,8 @@ const legend = L.control
       },
       {
         label: " must cross a major road",
-        type: "rectangle",
-        fillColor: "#555555",
-        color: "#555555",
-        opacity: 0.8,
-        fillOpacity: 0.5,
-        fillPattern: stripes,
-        weight: 2,
+        type: "image",
+        url: "img/legend_major_rd.png",
       },
     ],
   })
