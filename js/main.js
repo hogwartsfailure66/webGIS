@@ -218,11 +218,12 @@ searchControl.on("results", function (data) {
   let c_pantry = pantry_distances.indexOf(
     Math.min.apply(Math, pantry_distances)
   );
-
   results.addLayer(
     // L.marker(data.results[i].latlng, { icon: greenIcon }).bindPopup(
     L.marker(data.results[0].latlng, { icon: greenIcon }).bindPopup(
-      "<table><tr><th colspan='2'>Closest Grocery Store</th></tr>\
+      "<h2>Searched Address: " +
+        data.text + 
+        "</h2><table><tr><th colspan='2'><h3>Closest Grocery Store</h3></th></tr>\
       <tr><td>Name</td><td>" +
         all_points.features[c_store].properties.Name +
         "</td></tr>\
@@ -233,7 +234,7 @@ searchControl.on("results", function (data) {
         (resultlatlng.distanceTo(stores_array[c_store]) / 1609).toFixed(3) +
         " miles</td></tr></table>\
       \
-      <table><tr><th colspan='2'>Closest Food Pantry</th></tr>\
+      <table><tr><th colspan='2'><h3>Closest Food Pantry</h3></th></tr>\
       <tr><td>Name</td><td>" +
         all_points.features[c_pantry].properties.Name +
         "</td></tr>\
@@ -246,12 +247,57 @@ searchControl.on("results", function (data) {
       \
       <button class='delete-marker-button' onclick='deleteSearchMarker()'>Remove this marker</button>"
     )
+    
   );
 });
 
 const deleteSearchMarker = () => {
   results.clearLayers();
 };
+
+// show closest store/pantry to clicked point
+
+var closestPopup = L.popup();
+
+function closestFood(q) {
+  let store_distances = [];
+  for (i in stores_array) {
+    store_distances.push(q.latlng.distanceTo(stores_array[i]));
+  }
+  let c_store = store_distances.indexOf(Math.min.apply(Math, store_distances));
+
+  let pantry_distances = [];
+  for (i in pantry_array) {
+    pantry_distances.push(q.latlng.distanceTo(pantry_array[i]));
+  }
+  let c_pantry = pantry_distances.indexOf(
+    Math.min.apply(Math, pantry_distances)
+  );
+  closestPopup.setLatLng(q.latlng).setContent("</h2><table><tr><th colspan='2'><h3>Closest Grocery Store</h3></th></tr>\
+  <tr><td>Name</td><td>" +
+    all_points.features[c_store].properties.Name +
+    "</td></tr>\
+  <tr><td>Address</td><td>" +
+    all_points.features[c_store].properties.Address +
+    "</td></tr>\
+  <tr><td>Distance</td><td>" +
+    (q.latlng.distanceTo(stores_array[c_store]) / 1609).toFixed(3) +
+    " miles</td></tr></table>\
+  \
+  <table><tr><th colspan='2'><h3>Closest Food Pantry</h3></th></tr>\
+  <tr><td>Name</td><td>" +
+    all_points.features[c_pantry].properties.Name +
+    "</td></tr>\
+  <tr><td>Address</td><td>" +
+    all_points.features[c_pantry].properties.Address +
+    "</td></tr>\
+  <tr><td>Distance</td><td>" +
+    (q.latlng.distanceTo(pantry_array[c_pantry]) / 1609).toFixed(3) +
+    " miles</td></tr></table>").openOn(map);
+};
+map.on('click', closestFood);
+
+// arrays to simplify store/pantry location
 
 var stores_array = [];
 for (i in all_points.features) {
@@ -343,7 +389,7 @@ const legend = L.control
         weight: 2,
       },
       {
-        label: " must cross a major road",
+        label: " Must cross a major road",
         type: "rectangle",
         fillColor: "#555555",
         color: "#555555",
